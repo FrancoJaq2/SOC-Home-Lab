@@ -1,0 +1,19 @@
+# Secretos
+*.env
+*.key
+*.pem
+scripts/*.csv
+!scripts/.gitkeep
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Configuraciones con credenciales
+**/config.local.*
