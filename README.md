@@ -1,4 +1,4 @@
-# 🛡️ SOC-Lab-Virtual
+# 🛡️ lab virtual VMware
 
 Laboratorio casero de ciberseguridad defensiva orientado a la operación de un SOC (Security Operations Center).
 
