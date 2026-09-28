@@ -1,4 +1,4 @@
-# 🛡️ SOC Home Lab
+# 🛡️ SOC-Lab-Virtual
 
 Laboratorio casero de ciberseguridad defensiva orientado a la operación de un SOC (Security Operations Center).
 
