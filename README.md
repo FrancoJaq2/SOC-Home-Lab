@@ -1,44 +1,47 @@
-# 🛡️ SOC Home Lab
+# SOC Home Lab — Wazuh (Hardware)
 
-Laboratorio casero de ciberseguridad defensiva orientado a la operación de un SOC (Security Operations Center).
+Laboratorio casero de ciberseguridad defensiva orientado a la operación de un SOC (Security Operations Center), construido sobre hardware real.
 
-## 🎯 Objetivo
+## Objetivo
 
-- Despliegue y operación de un SIEM (Wazuh) con IDS/IPS (Suricata) y gestión de casos (TheHive).
-- Detección de ataques en endpoints Linux y Windows.
-- Análisis de incidentes y mapeo a MITRE ATT&CK.
-- Automatización de triaje con Python.
-- Documentación técnica de casos reales.
+- Despliegue y operación de un SIEM (Wazuh) sobre infraestructura física.
+- Detección y análisis de eventos en endpoints Linux.
+- Triage manual de alertas y clasificación de incidentes.
+- Documentación técnica de casos reales como portafolio profesional.
 
-## 🏗️ Arquitectura del laboratorio
+## Arquitectura
 
-El laboratorio se compone de un SIEM central (Wazuh) que recibe logs de varios agentes, más máquinas atacantes y víctimas.
+| Rol | Hostname | IP | Sistema operativo | Función |
+|-----|----------|----|-------------------|---------|
+| Servidor SIEM | `siem-server` | 192.168.1.15 | Ubuntu Server (headless) | Wazuh Manager, Indexer y Dashboard |
+| Agente | `workstation-01` | 192.168.1.11 | EndeavourOS (Arch Linux) | Endpoint monitoreado |
 
-Máquinas del laboratorio:
+Administración del servidor por SSH. Red local privada (RFC 1918), sin exposición a internet.
 
-- Wazuh Manager — SIEM central — Ubuntu Server 22.04 — 192.168.1.10
-- Kali Linux — Atacante — Kali Rolling — 192.168.1.20
-- Metasploitable — Víctima Linux — Ubuntu 8.04 — 192.168.1.30
-- Windows 10 — Víctima Windows — Windows 10 Pro — 192.168.1.40
-- Ubuntu Desktop — Cliente — Ubuntu 22.04 — 192.168.1.50
+## Stack
 
-## 🧪 Casos de uso documentados
+- **Wazuh 4.14.x** — SIEM/XDR (Manager, Indexer, Dashboard)
+- **OpenSearch** — motor de indexación y búsqueda
+- **GitHub** — documentación y portafolio
 
-- 01 — Fuerza bruta SSH — MITRE T1110
-- 02 — Detección en Windows con Sysmon — MITRE T1059, T1055
-- 03 — Análisis de phishing por SMS — MITRE T1566
-- 04 — Enumeración de red con Nmap — MITRE T1046
-- 05 — Mitigación con IPTables — MITRE T1562
+## Hoja de ruta
 
-## 🛠️ Tecnologías utilizadas
+- [x] **Etapa 1** — Triage manual básico
+- [ ] **Etapa 2** — Estructuración de la investigación e informes de incidente
+- [ ] **Etapa 3** — Métricas de cierre de jornada (shift report)
+- [ ] **Etapa 4** — Enriquecimiento automático (VirusTotal / AbuseIPDB)
+- [ ] **Etapa 5** — Respuesta activa (bloqueo automático de IP)
+- [ ] **Etapa 6** — Escalamiento de incidentes (handoff a N2)
+- [ ] **Etapa 7** — Integración de ticketing (osTicket)
 
-- SIEM: Wazuh 4.x
-- IDS/IPS: Suricata
-- Gestión de casos: TheHive
-- Endpoint: Sysmon, Agente Wazuh
-- Ataque: Kali Linux, Metasploit, Nmap, Hydra, Burp Suite
-- Automatización: Python 3, Bash, PowerShell
-- Redes: Cisco IOS (ACLs, Zero Trust)
+## Informes de incidente
+
+| ID | Fecha | Caso | Regla | Clasificación | Informe |
+|----|-------|------|-------|---------------|---------|
+| INC-20260925-001 | 2026-09-25 | Rootcheck sobre `/usr/bin/diff` | 510 | Falso positivo | [Ver](./casos-de-uso/INC-20260925-001.md) |
+
+## Estructura del repositorio
+
 
 ## 📫 Contacto
 
