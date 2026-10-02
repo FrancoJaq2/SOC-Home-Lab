@@ -115,20 +115,4 @@ El manager carga reglas, decodificadores y listas al arrancar. Una lista con for
 
 ---
 
-## 📎 Anexos
-
-- [Captura del dashboard con "API is down" (sanitizada)](./capturas/dashboard-api-down.png)
-- [Captura del dashboard funcionando correctamente (sanitizada)](./capturas/dashboard-ok.png)
-- [Informe completo del incidente (INC-20261002-001.md)](./INC-20261002-001.md)
-
----
-
-## 🔗 Referencias
-
-- [Wazuh Documentation — Troubleshooting](https://documentation.wazuh.com/current/user-manual/index.html)
-- [systemd — TimeoutStartSec](https://www.freedesktop.org/software/systemd/man/systemd.service.html)
-- [Home SOC Lab — Repositorio Principal](https://github.com/FrancoJaq2/SOC-Home-Lab)
-
----
-
 *Informe elaborado como parte del Home SOC Lab. Datos personales sanitizados según la política del repositorio.*
