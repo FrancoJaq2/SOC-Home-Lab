@@ -1,49 +1,97 @@
-# SOC Home Lab — Wazuh (Hardware)
+# 🛡️ SOC Home Lab — Wazuh
 
-Laboratorio casero de ciberseguridad defensiva orientado a la operación de un SOC (Security Operations Center), construido sobre hardware real.
+> Laboratorio de ciberseguridad defensiva construido desde cero para simular las operaciones de un Centro de Operaciones de Seguridad (SOC), con foco práctico en detección, análisis y respuesta a incidentes.
 
-## Objetivo
+## 🎯 Objetivo
 
-- Despliegue y operación de un SIEM (Wazuh) sobre infraestructura física.
-- Detección y análisis de eventos en endpoints Linux.
-- Triage manual de alertas y clasificación de incidentes.
-- Documentación técnica de casos reales como portafolio profesional.
+Este repositorio documenta mi recorrido práctico como aspirante a Analista SOC. El objetivo no es solo reunir herramientas, sino demostrar que comprendo el flujo de trabajo completo: desde la ingesta de logs en un SIEM hasta la investigación de una alerta y la redacción de un informe de incidente.
 
-## Arquitectura
+## 🏗️ Arquitectura del laboratorio
 
-| Rol | Hostname | IP | Sistema operativo | Función |
-|-----|----------|----|-------------------|---------|
-| Servidor SIEM | `siem-server` | 192.168.1.15 | Ubuntu Server (headless) | Wazuh Manager, Indexer y Dashboard |
-| Agente | `workstation-01` | 192.168.1.11 | EndeavourOS (Arch Linux) | Endpoint monitoreado |
+El laboratorio corre sobre un equipo anfitrión con EndeavourOS (base Arch Linux). Sobre él, VMware Workstation aloja las máquinas virtuales en una red aislada: un servidor Wazuh como SIEM, una máquina atacante y dos víctimas.
 
-Administración del servidor por SSH. Red local privada (RFC 1918), sin exposición a internet.
+```mermaid
+flowchart TB
+    subgraph HOST["Anfitrión: EndeavourOS (base Arch Linux) — endpoint-lab"]
+        AG["Agente Wazuh"]
+        subgraph VMS["VMware Workstation — red virtual aislada"]
+            K["Kali Linux<br/>atacante"]
+            U["Ubuntu<br/>víctima"]
+            M["Metasploitable<br/>víctima"]
+            W["Ubuntu Server<br/>Wazuh Manager / Indexer / Dashboard"]
+        end
+    end
+    K -.->|ataques simulados| U
+    K -.->|ataques simulados| M
+    U -->|telemetría| W
+    M -->|telemetría| W
+    AG -->|telemetría| W
+    W --> A["Analista SOC<br/>triage, investigación e informes"]
+```
 
-## Stack
+| Rol | Sistema | Host | IP |
+|---|---|---|---|
+| Anfitrión y endpoint monitoreado | EndeavourOS (Arch Linux) | `endpoint-lab` | 192.168.1.20 |
+| SIEM | Ubuntu Server + Wazuh | `siem-server` | 192.168.1.10 |
+| Atacante | Kali Linux | — | — |
+| Víctimas | Ubuntu, Metasploitable | — | — |
 
-- **Wazuh 4.14.x** — SIEM/XDR (Manager, Indexer, Dashboard)
-- **OpenSearch** — motor de indexación y búsqueda
-- **GitHub** — documentación y portafolio
+> ℹ️ Las direcciones IP son de ejemplo (rango privado) y no corresponden a mi red real.
 
-## Hoja de ruta
+## 🧰 Habilidades demostradas
 
-- [x] **Etapa 1** — Triage manual básico
-- [ ] **Etapa 2** — Estructuración de la investigación e informes de incidente
-- [ ] **Etapa 3** — Métricas de cierre de jornada (shift report)
-- [ ] **Etapa 4** — Enriquecimiento automático (VirusTotal / AbuseIPDB)
-- [ ] **Etapa 5** — Respuesta activa (bloqueo automático de IP)
-- [ ] **Etapa 6** — Escalamiento de incidentes (handoff a N2)
-- [ ] **Etapa 7** — Integración de ticketing (osTicket)
+- **Operaciones SOC:** triage de alertas, investigación y análisis de causa raíz.
+- **Validación de detecciones:** verificación de que las reglas de Wazuh detectan el comportamiento esperado.
+- **Análisis de incidentes:** documentación estructurada de casos (falsos y verdaderos positivos).
+- **Frameworks:** mapeo de técnicas a MITRE ATT&CK.
+- **Virtualización y Linux:** diseño de un laboratorio con VMs, diagnóstico y administración de sistemas (Arch y Ubuntu).
 
-## Informes de incidente
+## 📋 Metodología
 
-| ID | Fecha | Caso | Regla | Clasificación | Informe |
-|----|-------|------|-------|---------------|---------|
-| INC-20260925-001 | 2026-09-25 | Rootcheck sobre `/usr/bin/diff` | 510 | Falso positivo | [Ver](./casos-de-uso/INC-20260925-001.md) |
+Cada informe sigue un estándar fijo: identificación, resumen ejecutivo, línea de tiempo, recolección de evidencia, análisis de hipótesis y mapeo MITRE ATT&CK.
 
-## Estructura del repositorio
+## 📂 Estructura del repositorio
 
+```text
+SOC-Home-Lab/
+├── casos-de-uso/          # Informes detallados de incidentes investigados
+│   ├── capturas/          # Evidencia visual (capturas sanitizadas)
+│   └── INC-*.md           # Informes individuales
+└── README.md              # Este archivo
+```
+
+## 🔍 Casos de estudio
+
+- [**INC-20260925-001**](casos-de-uso/INC-20260925-001.md): Falso positivo en Rootcheck de Wazuh. Análisis de una alerta de "binario troyanizado" y verificación de integridad con `pacman`.
+- [**INC-20260929-001**](casos-de-uso/INC-20260929-001.md): Detección de creación de cuenta (T1136). Validación de la detección de persistencia mediante la creación de un usuario local.
+- [**INC-20261002-001**](casos-de-uso/INC-20261002-001.md): Caída y recuperación del Wazuh Manager. Diagnóstico y resolución de un fallo crítico del SIEM por un formato de lista incorrecto y un timeout de systemd.
+
+## 🛠️ Herramientas y tecnologías
+
+| Categoría | Herramienta |
+|---|---|
+| SIEM | Wazuh (Manager, Indexer, Dashboard) |
+| Virtualización | VMware Workstation |
+| Sistemas | EndeavourOS (Arch Linux), Ubuntu Server, Ubuntu |
+| Ofensivo (simulación) | Kali Linux, Metasploitable |
+| Threat intelligence | VirusTotal |
+| Gestión de paquetes | Pacman |
+| Diagnóstico | `journalctl`, `systemctl` |
+| Framework | MITRE ATT&CK |
+
+## 🚀 Próximos pasos
+
+- [ ] Implementar reglas de detección personalizadas en Wazuh.
+- [ ] Simular ataques desde Kali y mapearlos a MITRE ATT&CK.
+- [ ] Añadir un endpoint Windows con Sysmon para ampliar la telemetría.
+- [ ] Documentar el análisis de IOC con OSINT (flujo SOC nivel 1 y 2: AbuseIPDB, VirusTotal, Cisco Talos, BGP HE, AlienVault OTX, MXToolbox, Shodan y Security Headers).
+- [ ] Automatizar la recolección de evidencia con scripts.
+- [ ] Explorar la integración con más herramientas de threat intelligence.
 
 ## 📫 Contacto
 
-- LinkedIn: https://www.linkedin.com/in/franco-aravena-323186368/
-- GitHub: https://github.com/FrancoJaq2
+- LinkedIn: [Franco Aravena](https://www.linkedin.com/in/franco-aravena-323186368)
+
+---
+
+*Este repositorio forma parte de mi portafolio personal de ciberseguridad.*
